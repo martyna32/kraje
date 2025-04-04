@@ -15,7 +15,7 @@ function App() {
       .get(`https://restcountries.com/v3.1/name/${query}`)
       .then((response) => {
         setCountries(response.data);
-        setSelectedCountr(null);
+        setSelectedCountry(null); // Poprawiona literówka
       })
       .catch((error) => {
         setCountries([]);
@@ -26,7 +26,7 @@ function App() {
   useEffect(() => {
     if (!selectedCountry || !selectedCountry.capital) return;
 
-    const capital = selectedCountry.capital[0]; // jesli ma stolice
+    const capital = selectedCountry.capital[0]; // Jeśli ma stolicę
     axios
       .get(
         `https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${api_key}`
@@ -45,7 +45,7 @@ function App() {
 
   const handleShowCountry = (country) => {
     setSelectedCountry(country);
-    setWeather(null); //resetuje
+    setWeather(null); // resetpogody
   };
 
   const renderCountries = () => {
@@ -67,20 +67,19 @@ function App() {
       );
     }
 
-
     if (countries.length === 1) {
       const country = countries[0];
       return (
         <div>
           <h2>{country.name.common}</h2>
-          <p>Capital: {country.capital ? country.capital[0] : 'Brak stolicy'}</p> 
+          <p>Capital: {country.capital ? country.capital[0] : 'Brak stolicy'}</p>
           <p>Area: {country.area}</p>
           <p>Languages: {Object.values(country.languages || {}).join(', ')}</p>
           <img src={country.flags[0]} alt={country.name.common} width="100" />
         </div>
       );
-    }  
-  }
+    }
+  };
 
   return (
     <div>
@@ -93,10 +92,17 @@ function App() {
       {selectedCountry ? (
         <div>
           <h2>{selectedCountry.name.common}</h2>
-          <p>Capital: {selectedCountry.capital}</p>
+          <p>Capital: {selectedCountry.capital ? selectedCountry.capital[0] : 'Brak stolicy'}</p>
           <p>Area: {selectedCountry.area}</p>
           <p>Languages: {Object.values(selectedCountry.languages || {}).join(', ')}</p>
-          <img src={selectedCountry.flag[0]} alt={selectedCountry.name.common} width="100" />
+          <img src={selectedCountry.flags[0]} alt={selectedCountry.name.common} width="100" />
+          {weather && (
+            <div>
+              <h3>Weather in {selectedCountry.capital ? selectedCountry.capital[0] : 'N/A'}:</h3>
+              <p>Temperature: {weather.main.temp}°C</p>
+              <p>Weather: {weather.weather[0].description}</p>
+            </div>
+          )}
         </div>
       ) : (
         renderCountries()
