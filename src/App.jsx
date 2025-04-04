@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from 'axios'; //done 14;20
 
 function App() {
   const [query, setQuery] = useState('');
@@ -74,7 +74,7 @@ function App() {
           <h2>{country.name.common}</h2>
           <p>Capital: {country.capital ? country.capital[0] : 'Brak stolicy'}</p>
           <p>Area: {country.area}</p>
-          <p>Languages: {Object.values(country.languages || {}).join(', ')}</p>
+          <ul><p><h2>Languages:</h2></p> <li>{Object.values(country.languages || {}).join(', ')}</li> </ul>
           <img src={country.flags[0]} alt={country.name.common} width="100" />
         </div>
       );
@@ -94,7 +94,7 @@ function App() {
           <h2>{selectedCountry.name.common}</h2>
           <p>Capital: {selectedCountry.capital ? selectedCountry.capital[0] : 'Brak stolicy'}</p>
           <p>Area: {selectedCountry.area}</p>
-          Languages:<ul><li>{Object.values(selectedCountry.languages || {}).join(', ')}</li> </ul>
+          <ul><p><h2>Languages:</h2></p><li>{Object.values(selectedCountry.languages || {}).join(', ')}</li> </ul>
           <img src={selectedCountry.flags[0]} alt={selectedCountry.name.common} width="100" />
         </div>
       ) : (
