@@ -9,13 +9,13 @@ function App() {
 
   const api_key = import.meta.env.VITE_SOME_KEY;
 
-  useEffect(() => {
+  useEffect(() => { //kraje 
     if (query === '') return;
     axios
       .get(`https://restcountries.com/v3.1/name/${query}`)
       .then((response) => {
         setCountries(response.data);
-        setSelectedCountry(null); // Poprawiona literówka
+        setSelectedCountry(null); 
       })
       .catch((error) => {
         setCountries([]);
@@ -26,7 +26,7 @@ function App() {
   useEffect(() => {
     if (!selectedCountry || !selectedCountry.capital) return;
 
-    const capital = selectedCountry.capital[0]; // Jeśli ma stolicę
+    const capital = selectedCountry.capital[0]; // jesli ma stolice yk
     axios
       .get(
         `https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${api_key}`
@@ -94,15 +94,8 @@ function App() {
           <h2>{selectedCountry.name.common}</h2>
           <p>Capital: {selectedCountry.capital ? selectedCountry.capital[0] : 'Brak stolicy'}</p>
           <p>Area: {selectedCountry.area}</p>
-          <p>Languages: {Object.values(selectedCountry.languages || {}).join(', ')}</p>
+          Languages:<ul><li>{Object.values(selectedCountry.languages || {}).join(', ')}</li> </ul>
           <img src={selectedCountry.flags[0]} alt={selectedCountry.name.common} width="100" />
-          {weather && (
-            <div>
-              <h3>Weather in {selectedCountry.capital ? selectedCountry.capital[0] : 'N/A'}:</h3>
-              <p>Temperature: {weather.main.temp}°C</p>
-              <p>Weather: {weather.weather[0].description}</p>
-            </div>
-          )}
         </div>
       ) : (
         renderCountries()
